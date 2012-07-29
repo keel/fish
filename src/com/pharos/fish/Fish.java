@@ -3,8 +3,13 @@
  */
 package com.pharos.fish;
 
+import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 /**
@@ -21,10 +26,37 @@ public class Fish {
 		
 	}
 	
-
+	static final Logger log = Logger.getLogger(Fish.class);
 	private static MongoConn mongo;
 	
 	
+	
+	public static final ArrayList<String> topA(){
+		DBCollection coll = mongo.getColl("fUser");
+		BasicDBObject keys = new BasicDBObject("uName","1").append("topLogA","1");
+		BasicDBObject order = new BasicDBObject("topLogA","-1");
+		DBCursor cur = coll.find(null, keys).sort(order).limit(50);
+		ArrayList<String> ls = new ArrayList<String>();
+		while (cur.hasNext()) {
+			DBObject o = cur.next();
+			ls.add(o.get("uName")+" : "+o.get("topLogA"));
+		}
+		return ls;
+	}
+	
+	public static final ArrayList<String> topB(){
+		DBCollection coll = mongo.getColl("fUser");
+		BasicDBObject keys = new BasicDBObject("uName","1").append("topLogB","1");
+		BasicDBObject order = new BasicDBObject("topLogB","-1");
+		DBCursor cur = coll.find(null, keys).sort(order).limit(50);
+		ArrayList<String> ls = new ArrayList<String>();
+		while (cur.hasNext()) {
+			DBObject o = cur.next();
+			ls.add(o.get("uName")+" : "+o.get("topLogB"));
+		}
+		return ls;
+	}
+		
 	
 	/**
 	 * 登录
@@ -70,6 +102,7 @@ public class Fish {
 		user.put("fishnet", 0);
 		user.put("toolA", 0);
 		user.put("toolB", 0);
+		user.put("levelLogB", 0);
 		user.put("fishes", "30,30,30,20,10");
 		user.put("gotFishes", "0,0,0,0,0");
 //		user.put("topLogA", 0);
@@ -101,6 +134,7 @@ public class Fish {
 			user.append("toolB", 0);
 			user.append("topLogA", 0);
 			user.append("topLogB", 0);
+			user.append("levelLogB", 0);
 			user.append("createTime", System.currentTimeMillis());
 			user.append("fishes", "30,30,30,20,10");
 			user.append("gotFishes", "0,0,0,0,0");
@@ -113,6 +147,8 @@ public class Fish {
 	}
 	
 	public static void init(){
+		System.out.println("========Fish========");
+		log.info("========Fish========");
 		mongo = new MongoConn();
 		mongo.init();
 	}

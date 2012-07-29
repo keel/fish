@@ -3,33 +3,46 @@
 static final int[] fishGold = new int[5];
 static{
 	fishGold[0] = 0;
-	fishGold[1] = 1;
-	fishGold[2] = 2;
-	fishGold[3] = 5;
-	fishGold[4] = 10;
+	fishGold[1] = 2;
+	fishGold[2] = 5;
+	fishGold[3] = 10;
+	fishGold[4] = 50;
+}
+static final int[] po = new int[5];
+static{
+	po[0] = 30;
+	po[1] = 60;
+	po[2] = 90;
+	po[3] = 110;
+	po[4] = 120;
 }
 public static final int[] shootFishes(int shootWide,int[] fishes,int[] gotFishes,String[] fs,String[] gfs){
-	int[] po = new int[5];
+	//区间数组，用于确定捕到鱼的类型
+	//start是随机起始数
+	int start = 1;
+	//填充fishes和gotFishes数组
 	fishes[0] = Integer.parseInt(fs[0]);
-	po[0] = fishes[0] - Integer.parseInt(gfs[0]);
+	gotFishes[0] = Integer.parseInt(gfs[0]);
+	start = start + gotFishes[0];
 	for(int i = 1;i<fishes.length;i++){
 		fishes[i] = Integer.parseInt(fs[i]);
 		gotFishes[i] = Integer.parseInt(gfs[i]);
-		po[i] = po[i-1] + fishes[i] - gotFishes[i];
+		start = start + gotFishes[i];
+		po[i-1] = po[i-1] + gotFishes[i];
 	}
-	
 	int[] res = new int[shootWide];
-	int start = 1;
 	for (int j = 0; j < res.length; j++) {
 		//取随机值对应到区间
 		int r = RandomUtil.getRandomInt(start, 121);
 		System.out.println("r:"+r);
+		for(int i = 0;i<po.length;i++){
+			System.out.println("po["+i+"]:"+po[i]);
+		}
 		//re为最终的鱼种,从0-3共4个标记
 		int re = 0;
 		for(int i = 1;i<po.length;i++){
 			if(r<= po[0] || (po[i-1] < r && po[i] >= r)){
 				re = i-1;
-				start++;
 				break;
 			}
 		}
@@ -37,12 +50,15 @@ public static final int[] shootFishes(int shootWide,int[] fishes,int[] gotFishes
 		res[j] = re;
 		fishes[re]--;
 		gotFishes[re]++;
-		if (re > 0) {
-			po[re]--;
-			po[0]++;
+		start++;
+		System.out.println("----------");
+		System.out.println("po[0]:"+po[0]);
+		for(int i = 1;i<po.length;i++){
+			po[i-1] = po[i-1] + gotFishes[i];
+			System.out.println("po["+i+"]:"+po[i]);
 		}
+		System.out.println("==========");
 	}
-	
 	return res;
 }
 %>
@@ -92,15 +108,23 @@ if(shootWide>1){
 	cost = 3;
 }
 gold = gold - cost;
-user.put("gold",(Integer)user.get("gold")+gold);
+int restGold = (Integer)user.get("gold")+gold;
+int topB = (Integer)user.get("topLogB");
+int levelLogB = (Integer)user.get("levelLogB") + gold;
+user.put("gold",restGold);
+user.put("topLogA",restGold);
 int level = (Integer)user.get("level");
 int bigLevel = (Integer)user.get("bigLevel");
 if(level >= 10){
 	level = 1;
 	bigLevel++;
+	if(topB<levelLogB){
+		user.put("topLogB", levelLogB);
+	}
 }else{
 	level++;
 }
+user.put("levelLogB", levelLogB);
 user.put("level",level);
 user.put("bigLevel",bigLevel);
 Fish.save(user);
@@ -114,7 +138,7 @@ Fish.save(user);
 %>
 捕到1条 <span class="redBold"><%= String.valueOf(res[i]) %></span> 级鱼,获得 <span class="redBold"><%=fishGold[res[i]] %></span> 个金币！<br />
 <%}
-	out.append("共获得 <span class='redBold'>").append(String.valueOf(gold)).append("</span> 金币！<br />");
+	out.append("除去花费共获得 <span class='redBold'>").append(String.valueOf(gold)).append("</span> 金币！<br />");
 }%>
 本次捕鱼花费 <span class='redBold'><%=cost %></span>金币,目前共余有 <span class='redBold'><%=user.get("gold") %></span> 金币。<br />
 [ <a href="main.jsp">再来一次</a> ]<br />

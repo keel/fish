@@ -71,20 +71,39 @@ if(upgrade || fish.equals("")){
 if(upgrade || fish.equals("")){
 	Fish.save(user);
 }
+String n = request.getParameter("n");
+int ni = 1;
+if(StringUtil.isDigits(n)){
+	ni = Integer.parseInt(n);
+}
 %>
 <jsp:include page="top.jsp" flush="false" >
 <jsp:param name="t" value="" /> 
 </jsp:include>
 第 <%=bigLevel %> 关 ,还剩余 <%=restTurn+1 %> 轮:<br />
 据探测,目前所有海域内还有约 <%=fishes[1] %> 条1级小鱼, <%=fishes[2] %> 条2级鱼, <%=fishes[3] %> 条3级鱼 , <%=fishes[4] %> 条特大鱼. <br />
-目前使用渔网: 普通(每次消耗1金币) <a href="changeNet.jsp">更换渔网</a> <br />
+目前使用渔网: <%if(ni<=1) {%>普通(每次消耗1金币)<%}else{ %>超级(每次消耗2金币)<%} %>
+ <a href="changeNet.jsp">更换渔网</a> <br />
 点击下方目标海域发起捕鱼:
 <div>
 <table>
-<tr><td><a href="shoot.jsp?t=1"> 1 </a></td><td><a href="shoot.jsp?t=2"> 2 </a></td><td><a href="shoot.jsp?t=3"> 3 </a></td></tr>
-<tr><td><a href="shoot.jsp?t=4"> 4 </a></td><td><a href="shoot.jsp?t=5"> 5 </a></td><td><a href="shoot.jsp?t=6"> 6 </a></td></tr>
-<tr><td><a href="shoot.jsp?t=7"> 7 </a></td><td><a href="shoot.jsp?t=8"> 8 </a></td><td><a href="shoot.jsp?t=9"> 9 </a></td></tr>
-<tr><td><a href="shoot.jsp?t=10"> 10 </a></td><td><a href="shoot.jsp?t=11"> 11 </a></td><td><a href="shoot.jsp?t=12"> 12 </a></td></tr>
+<%
+int cc = 1;
+for(int i=0;i<4;i++){
+	out.append("<tr>");
+	for(int j=0;j<3;j++){
+		out.append("<td><a href='shoot.jsp?t=");
+		out.append(String.valueOf(cc));
+		out.append("&n=");
+		out.append(String.valueOf(ni));
+		out.append("'> ");
+		out.append(String.valueOf(cc));
+		out.append(" </a></td>");
+		cc++;
+	}
+	out.append("</tr>");
+}
+%>
 </table>
 </div>
 <jsp:include page="foot.jsp" flush="false" ></jsp:include>

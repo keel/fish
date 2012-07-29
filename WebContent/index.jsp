@@ -33,13 +33,15 @@ if(coo.equals("")){
 }else{
 //如果已登录,则取得用户信息并显示,然后显示“开始游戏”
 	DBObject user = Fish.findUser(coo);
+	int bigLevel = (Integer)user.get("bigLevel");
+	int level = (Integer)user.get("level");
 	%>
 <div id="userInfo">
 您好，<span class="blueBold"><%=coo %></span> ,<br />
 欢迎您回到“深海捕鱼”,您目前的金币数为 <span class="redBold"><%=user.get("gold") %></span> ,<br />
-您目前正处于第 <span class="blueBold"><%=user.get("bigLevel") %></span> 关的第 <span class="blueBold"><%=user.get("level") %></span> 轮。<br />
+您目前正处于第 <span class="blueBold"><%=bigLevel %></span> 关的第 <span class="blueBold"><%=level %></span> 轮。<br />
 
-[ <a href="main.jsp">继续游戏</a> ]<br />
+[ <a href="main.jsp"><%if(bigLevel==1 && level==1){out.append("开始");}else{out.append("继续");} %>游戏</a> ]<br />
 [ <a href="restart.jsp">全新开始</a> ]<br />
 [ <a href="logout.jsp">注销用户</a> ]<br />
 </div>
