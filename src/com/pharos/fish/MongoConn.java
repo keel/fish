@@ -4,28 +4,13 @@
 package com.pharos.fish;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
-
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 import com.mongodb.MongoOptions;
 import com.mongodb.ServerAddress;
-import com.pharos.tools.CnToSpell;
-import com.pharos.tools.JSON;
-import com.pharos.tools.Net;
-import com.pharos.tools.StringUtil;
 
 /**
  * MongoDB连接处理器，单例
@@ -34,8 +19,6 @@ import com.pharos.tools.StringUtil;
  */
 public final class MongoConn{
 
-	static final Logger log = Logger.getLogger(MongoConn.class);
-	
 	private String ip = "127.0.0.1";
 	private int port = 27017;
 	private String dbName = "fish";
@@ -81,14 +64,17 @@ public final class MongoConn{
 		try {
 			return db.getCollection(colName);
 		} catch (Exception e) {
-			log.error("getColl error!!", e);
+//			log.error("getColl error!!", e);
+			System.err.println("getColl error!!");
+			e.printStackTrace();
 			return null;
 		}
 	}
 	
 	public void exit() {
 		mongo.close();
-		log.info("=========== mongoConn exited. ============");
+		System.out.println("=========== FISH mongoConn exited. ============");
+//		log.info("=========== mongoConn exited. ============");
 	}
 	
 	
@@ -114,19 +100,25 @@ public final class MongoConn{
 				auth = true;
 			}
 			if (!auth) {
-				log.error("auth error! user:"+this.user);
+				System.err.println("auth error! user:"+this.user);
+//				log.error("auth error! user:"+this.user);
 			}else{
-				log.info("=========== mongoConn init OK! ============");
+				System.out.println("=========== FISH mongoConn init OK! ============");
+//				log.info("=========== mongoConn init OK! ============");
 				return true;
 			}
 		} catch (UnknownHostException e) {
-			log.error("init error!!", e);
+			System.err.println("init error!!"+this.user);
+			e.printStackTrace();
+//			log.error("init error!!", e);
 			return false;
 		} catch (MongoException e) {
-			log.error("init error!!", e);
+			e.printStackTrace();
+//			log.error("init error!!", e);
 			return false;
 		} catch (Exception e) {
-			log.error("init error!!", e);
+			e.printStackTrace();
+//			log.error("init error!!", e);
 			return false;
 		}
 		return false;

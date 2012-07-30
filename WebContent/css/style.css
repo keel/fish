@@ -1,8 +1,16 @@
-﻿html, body, div, span, h1, h2, h3, p, a, font, img, strong,center,form, label, table, tbody, tfoot, thead, tr, th, td {margin: 0;padding: 0;border: 0 none; outline: 0;font-size: 100%;vertical-align: baseline;}
-body {line-height: 1.5; }
+﻿html, body, div, span, h1, h2, h3, p,a, font, img, strong,center,form, label, table, tbody, tfoot, thead, tr, th, td {margin: 0;padding: 0;border: 0 none; outline: 0;font-size: 100%;vertical-align: baseline;}
+body {line-height: 1.5; padding:5px;}
 table {border-collapse: separate;border-spacing:1px;}
 .clear{clear: both;}
 html{font:0.9em Verdana,Arial, sans-serif;}
 
 .redBold{color:red;font-weight: bold;}
 .blueBold{color:blue;font-weight: bold;}
+.red{color:red;}
+.blue{color:blue;}
+.orange{color:orange;}
+.bold{font-weight: bold;}
+table{text-align: center;}
+td{background-color: #00ADEF;}
+td a:link ,td a:visited{color:white;text-decoration:none;}
+td a:hover ,td a:active{color:white;text-decoration:none;}

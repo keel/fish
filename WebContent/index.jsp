@@ -2,16 +2,31 @@
 <jsp:include page="top.jsp" flush="false" > 
   <jsp:param name="t" value="" /> 
 </jsp:include>
-<div>[深海捕鱼]</div>
 <%
 //取cookie判断是否已登录
 String coo = WebTool.getCookieValue(request.getCookies(), "fUser", "");
+DBObject user = null;
+boolean loginOK = false;
 if(coo.equals("")){
+	String order = request.getParameter("login");
+	if(order != null && order.equals("true")){
+		String uName = request.getParameter("uName");
+		String uPwd = request.getParameter("uPwd");
+		user = Fish.login(uName, uPwd);
+		if(user == null){
+			out.append("登录失败! 请重新输入正确的用户名和密码.<br /><a href='index.jsp'>返回登录</a>");
+			return;
+		}else{
+			WebTool.setCookie("fUser", uName, response);
+			coo = uName;
+			loginOK = true;
+		}
+	}else{
 %>
 <div>
 	游戏说明:
 </div>
-<form name="login" action="main.jsp?login=true" method="post">
+<form name="login" action="index.jsp?login=true" method="post">
 <div>用户登录：<br />
 用户名:  <input type="text" id="uName" name="uName" /><br />
 密&nbsp;&nbsp;码:  <input type="text" id="uPwd" name="uPwd" /><br />
@@ -30,9 +45,13 @@ if(coo.equals("")){
 </form>
 </div>
 <%
+	}
 }else{
+	loginOK = true;
+}
+if(loginOK){
 //如果已登录,则取得用户信息并显示,然后显示“开始游戏”
-	DBObject user = Fish.findUser(coo);
+	user = Fish.findUser(coo);
 	int bigLevel = (Integer)user.get("bigLevel");
 	int level = (Integer)user.get("level");
 	%>

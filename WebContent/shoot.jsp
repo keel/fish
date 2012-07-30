@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" import="com.pharos.fish.*,com.pharos.tools.*,com.mongodb.DBObject" pageEncoding="UTF-8"%>
 <%!
 static final int[] fishGold = new int[5];
-static{
+static final int[] po = new int[5];
+public static void reset(int[] fishGold,int[] po){
 	fishGold[0] = 0;
 	fishGold[1] = 2;
 	fishGold[2] = 5;
 	fishGold[3] = 10;
 	fishGold[4] = 50;
-}
-static final int[] po = new int[5];
-static{
+	
 	po[0] = 30;
 	po[1] = 60;
 	po[2] = 90;
@@ -75,6 +74,7 @@ if(coo.equals("")){
 		return;
 	}
 }
+reset(fishGold, po);
 //计算随机量,出结果
 String fish = user.get("fishes").toString();
 String gotFish = user.get("gotFishes").toString();
@@ -135,7 +135,9 @@ Fish.save(user);
 <%}else{ 
 	out.append("恭喜您,<br />");
 	for(int i = 0;i<res.length;i++){
+		
 %>
+<img src="img/fish<%=String.valueOf(res[i]) %>.png" alt="fishGot" /><br />
 捕到1条 <span class="redBold"><%= String.valueOf(res[i]) %></span> 级鱼,获得 <span class="redBold"><%=fishGold[res[i]] %></span> 个金币！<br />
 <%}
 	out.append("除去花费共获得 <span class='redBold'>").append(String.valueOf(gold)).append("</span> 金币！<br />");

@@ -10,3 +10,4 @@ String subTitle = (StringUtil.isStringWithLen(request.getParameter("t"), 1))?req
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
+<div><img src="img/logo.jpg" alt="fish" /></div>

@@ -7,9 +7,10 @@ if(StringUtil.isDigits(n)){
 	if(ni>1){
 		out.append("您已更换为超级渔网,每轮花费3个金币，每次开启2个海域。");
 	}else{
-		out.append("您已更换为普通渔网,每轮花费3个金币，每次开启2个海域。");
+		out.append("您已更换为普通渔网,每轮花费1个金币，每次开启1个海域。");
 	}
-	out.append("<br />[ <a href='main.jsp?n="+n+"'>返回继续捕鱼</a> ]<br />");
+	WebTool.setCookie("net", String.valueOf(ni), response);
+	out.append("<br />[ <a href='main.jsp'>返回继续捕鱼</a> ]<br />");
 }else{
 %>
 

@@ -5,7 +5,6 @@ package com.pharos.fish;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -26,16 +25,15 @@ public class Fish {
 		
 	}
 	
-	static final Logger log = Logger.getLogger(Fish.class);
 	private static MongoConn mongo;
 	
-	
+	private static final BasicDBObject empty = new BasicDBObject();
 	
 	public static final ArrayList<String> topA(){
 		DBCollection coll = mongo.getColl("fUser");
 		BasicDBObject keys = new BasicDBObject("uName","1").append("topLogA","1");
 		BasicDBObject order = new BasicDBObject("topLogA","-1");
-		DBCursor cur = coll.find(null, keys).sort(order).limit(50);
+		DBCursor cur = coll.find(empty, keys).sort(order).limit(50);
 		ArrayList<String> ls = new ArrayList<String>();
 		while (cur.hasNext()) {
 			DBObject o = cur.next();
@@ -48,7 +46,7 @@ public class Fish {
 		DBCollection coll = mongo.getColl("fUser");
 		BasicDBObject keys = new BasicDBObject("uName","1").append("topLogB","1");
 		BasicDBObject order = new BasicDBObject("topLogB","-1");
-		DBCursor cur = coll.find(null, keys).sort(order).limit(50);
+		DBCursor cur = coll.find(empty, keys).sort(order).limit(50);
 		ArrayList<String> ls = new ArrayList<String>();
 		while (cur.hasNext()) {
 			DBObject o = cur.next();
@@ -110,8 +108,6 @@ public class Fish {
 		coll.save(user);
 	}
 	
-
-	
 	/**
 	 * 用户注册
 	 * @param uName
@@ -148,7 +144,6 @@ public class Fish {
 	
 	public static void init(){
 		System.out.println("========Fish========");
-		log.info("========Fish========");
 		mongo = new MongoConn();
 		mongo.init();
 	}

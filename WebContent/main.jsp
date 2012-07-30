@@ -2,23 +2,12 @@
 <%
 //取cookie判断是否已登录
 String coo = WebTool.getCookieValue(request.getCookies(), "fUser", "");
+String netS = WebTool.getCookieValue(request.getCookies(), "net", "");
+int net = (StringUtil.isDigits(netS)) ? (Integer.parseInt(netS)) : 1;
 DBObject user = null;
 if(coo.equals("")){
-	String order = request.getParameter("login");
-	if(order.equals("true")){
-		String uName = request.getParameter("uName");
-		String uPwd = request.getParameter("uPwd");
-		user = Fish.login(uName, uPwd);
-		if(user == null){
-			out.append("登录失败! 请重新输入正确的用户名和密码.<br /><a href='index.jsp'>返回登录</a>");
-			return;
-		}else{
-			WebTool.setCookie("fUser", uName, response);
-		}
-	}else{
-		response.sendRedirect("index.jsp");
-		return;
-	}
+	response.sendRedirect("index.jsp");
+	return;
 }else{
 	user = Fish.findUser(coo);
 }
@@ -71,22 +60,19 @@ if(upgrade || fish.equals("")){
 if(upgrade || fish.equals("")){
 	Fish.save(user);
 }
-String n = request.getParameter("n");
-int ni = 1;
-if(StringUtil.isDigits(n)){
-	ni = Integer.parseInt(n);
-}
 %>
 <jsp:include page="top.jsp" flush="false" >
 <jsp:param name="t" value="" /> 
 </jsp:include>
-第 <%=bigLevel %> 关 ,还剩余 <%=restTurn+1 %> 轮:<br />
-据探测,目前所有海域内还有约 <%=fishes[1] %> 条1级小鱼, <%=fishes[2] %> 条2级鱼, <%=fishes[3] %> 条3级鱼 , <%=fishes[4] %> 条特大鱼. <br />
-目前使用渔网: <%if(ni<=1) {%>普通(每次消耗1金币)<%}else{ %>超级(每次消耗2金币)<%} %>
+第 <span class="blue"><%=bigLevel %></span> 关 ,还剩余 <span class="blue"><%=restTurn+1 %></span> 轮:<br />
+据探测,目前所有海域内还有约 <span class="orange bold"><%=fishes[1] %></span> 条1级小鱼, <span class="orange bold"><%=fishes[2] %></span> 条2级鱼, <span class="orange bold"><%=fishes[3] %></span> 条3级鱼 , <span class="orange bold"><%=fishes[4] %></span> 条特大鱼. <br />
+<br />
+目前使用渔网: <%if(net<=1) {%>普通(每次消耗1金币)<%}else{ %>超级(每次消耗2金币)<%} %>
  <a href="changeNet.jsp">更换渔网</a> <br />
 点击下方目标海域发起捕鱼:
 <div>
-<table>
+<img alt="map" src="img/map2.jpg" />
+<table width="120">
 <%
 int cc = 1;
 for(int i=0;i<4;i++){
@@ -95,7 +81,7 @@ for(int i=0;i<4;i++){
 		out.append("<td><a href='shoot.jsp?t=");
 		out.append(String.valueOf(cc));
 		out.append("&n=");
-		out.append(String.valueOf(ni));
+		out.append(String.valueOf(net));
 		out.append("'> ");
 		out.append(String.valueOf(cc));
 		out.append(" </a></td>");

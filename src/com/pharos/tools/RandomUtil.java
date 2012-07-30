@@ -35,7 +35,7 @@ public final class RandomUtil {
 		if (from < 0) {
 			from = 0;
 		}
-		if (to < from) {
+		if (to <= from) {
 			return from;
 		}
 		int re = ((int) (Math.random()*100))%(to-from) + from;
