@@ -1,5 +1,5 @@
 ﻿html, body, div, span, h1, h2, h3, p,a, font, img, strong,center,form, label, table, tbody, tfoot, thead, tr, th, td {margin: 0;padding: 0;border: 0 none; outline: 0;font-size: 100%;vertical-align: baseline;}
-body {line-height: 1.5; padding:5px;}
+body {line-height: 1.5; padding:5px;width:130px;}
 table {border-collapse: separate;border-spacing:1px;}
 .clear{clear: both;}
 html{font:0.9em Verdana,Arial, sans-serif;}

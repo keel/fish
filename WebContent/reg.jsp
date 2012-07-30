@@ -6,10 +6,10 @@
 String uName = request.getParameter("uName");
 String uPwd = request.getParameter("uPwd");
 String handset = request.getHeader("x-up-calling-line-id");
-if(StringUtil.isStringWithLen(uName, 4) && StringUtil.isStringWithLen(uPwd, 4)){
-	int re = Fish.reg(uName, uPwd, handset);
+if(StringUtil.isStringWithLen(uName, 3) && StringUtil.isStringWithLen(uPwd, 3)){
+	int re = Fish.reg(uName.trim(), uPwd.trim(), handset);
 	if(re == 0){
-		WebTool.setCookie("fUser", uName, response);
+		WebTool.setCookie("fUser", Base64Coder.encodeString(uName,"utf-8"), response);
 		out.append("注册成功! <br /><a href='main.jsp'>进入游戏</a>");
 	}
 }else{

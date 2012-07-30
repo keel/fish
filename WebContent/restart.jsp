@@ -5,6 +5,7 @@ if(coo.equals("")){
 	response.sendRedirect("index.jsp");
 	return;
 }
+coo = Base64Coder.decodeString(coo);
 String reset = request.getParameter("reset");
 if(StringUtil.isStringWithLen(reset, 1) && reset.equals("true")){
 	Fish.reset(coo);

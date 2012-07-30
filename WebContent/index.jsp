@@ -17,7 +17,7 @@ if(coo.equals("")){
 			out.append("登录失败! 请重新输入正确的用户名和密码.<br /><a href='index.jsp'>返回登录</a>");
 			return;
 		}else{
-			WebTool.setCookie("fUser", uName, response);
+			WebTool.setCookie("fUser", Base64Coder.encodeString(uName,"utf-8"), response);
 			coo = uName;
 			loginOK = true;
 		}
@@ -28,8 +28,8 @@ if(coo.equals("")){
 </div>
 <form name="login" action="index.jsp?login=true" method="post">
 <div>用户登录：<br />
-用户名:  <input type="text" id="uName" name="uName" /><br />
-密&nbsp;&nbsp;码:  <input type="text" id="uPwd" name="uPwd" /><br />
+用户名:  <br /><input type="text" id="uName" name="uName" /><br />
+密&nbsp;&nbsp;码:  <br /><input type="text" id="uPwd" name="uPwd" /><br />
 <input type="submit" name="loginSubmit" value="  快速登录  " />
 </div>
 </form>
@@ -38,8 +38,8 @@ if(coo.equals("")){
 	快速注册:<br />
 <form name="reg" action="reg.jsp" method="post">
 <div>
-用户名:  <input type="text" id="uName" name="uName" /><br />
-密&nbsp;&nbsp;码:  <input type="text" id="uPwd" name="uPwd" /><br />
+用户名:  <br /><input type="text" id="uName" name="uName" /><br />
+密&nbsp;&nbsp;码:  <br /><input type="text" id="uPwd" name="uPwd" /><br />
 <input type="submit" name="regSubmit" value="  快速注册  " />
 </div>
 </form>
@@ -47,11 +47,17 @@ if(coo.equals("")){
 <%
 	}
 }else{
+	coo = Base64Coder.decodeString(coo);
 	loginOK = true;
 }
 if(loginOK){
 //如果已登录,则取得用户信息并显示,然后显示“开始游戏”
 	user = Fish.findUser(coo);
+if(user == null){
+	WebTool.removeCookie("fUser", response);
+	response.sendRedirect("index.jsp");
+	return;
+}
 	int bigLevel = (Integer)user.get("bigLevel");
 	int level = (Integer)user.get("level");
 	%>

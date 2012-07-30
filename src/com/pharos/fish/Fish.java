@@ -119,7 +119,7 @@ public class Fish {
 		DBCollection coll = mongo.getColl("fUser");
 		BasicDBObject q = new BasicDBObject("uName",uName);
 		DBObject u = coll.findOne(q);
-		if (u == null) {
+		if (u == null) { 
 			BasicDBObject user = new BasicDBObject("uName",uName).append("uPwd", uPwd);
 			user.append("handset", handset);
 			user.append("gold", 300);

@@ -9,6 +9,7 @@ if(coo.equals("")){
 	response.sendRedirect("index.jsp");
 	return;
 }else{
+	coo = Base64Coder.decodeString(coo);
 	user = Fish.findUser(coo);
 }
 //计算关卡,轮数

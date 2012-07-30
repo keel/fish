@@ -68,6 +68,7 @@ if(coo.equals("")){
 	response.sendRedirect("index.jsp");
 	return;
 }else{
+	coo = Base64Coder.decodeString(coo);
 	user = Fish.findUser(coo);
 	if(user == null){
 		response.sendRedirect("index.jsp");
