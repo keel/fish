@@ -31,21 +31,21 @@ public class Fish {
 	
 	public static final ArrayList<String> topA(){
 		DBCollection coll = mongo.getColl("fUser");
-		BasicDBObject keys = new BasicDBObject("uName","1").append("topLogA","1");
-		BasicDBObject order = new BasicDBObject("topLogA","-1");
+		BasicDBObject keys = new BasicDBObject("uName",1).append("gold",1);
+		BasicDBObject order = new BasicDBObject("gold",-1);
 		DBCursor cur = coll.find(empty, keys).sort(order).limit(50);
 		ArrayList<String> ls = new ArrayList<String>();
 		while (cur.hasNext()) {
 			DBObject o = cur.next();
-			ls.add(o.get("uName")+" : "+o.get("topLogA"));
+			ls.add(o.get("uName")+" : "+o.get("gold"));
 		}
 		return ls;
 	}
 	
 	public static final ArrayList<String> topB(){
 		DBCollection coll = mongo.getColl("fUser");
-		BasicDBObject keys = new BasicDBObject("uName","1").append("topLogB","1");
-		BasicDBObject order = new BasicDBObject("topLogB","-1");
+		BasicDBObject keys = new BasicDBObject("uName",1).append("topLogB",1);
+		BasicDBObject order = new BasicDBObject("topLogB",-1);
 		DBCursor cur = coll.find(empty, keys).sort(order).limit(50);
 		ArrayList<String> ls = new ArrayList<String>();
 		while (cur.hasNext()) {
@@ -101,13 +101,13 @@ public class Fish {
 		user.put("toolA", 0);
 		user.put("toolB", 0);
 		user.put("levelLogB", 0);
-		user.put("fishes", "30,30,30,20,10");
+		user.put("fishes", "30,60,90,110,120");
 		user.put("gotFishes", "0,0,0,0,0");
-//		user.put("topLogA", 0);
-//		user.put("topLogB", 0);
+//		user.put("topLogA", 300);
+		user.put("topLogB", 0);
 		coll.save(user);
 	}
-	
+
 	/**
 	 * 用户注册
 	 * @param uName
@@ -128,11 +128,11 @@ public class Fish {
 			user.append("fishnet", 0);
 			user.append("toolA", 0);
 			user.append("toolB", 0);
-			user.append("topLogA", 0);
+//			user.append("topLogA", 300);
 			user.append("topLogB", 0);
 			user.append("levelLogB", 0);
 			user.append("createTime", System.currentTimeMillis());
-			user.append("fishes", "30,30,30,20,10");
+			user.append("fishes", "30,60,90,110,120");
 			user.append("gotFishes", "0,0,0,0,0");
 			coll.save(user);
 			return 0;

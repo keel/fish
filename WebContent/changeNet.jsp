@@ -17,7 +17,7 @@ if(StringUtil.isDigits(n)){
 更换渔网：<br />
 [ <a href="changeNet.jsp?n=1">普通渔网</a> ] <br />
 每轮花费1个金币，每次开启1个海域。<br />
-[ <a href="changeNet.jsp?n=3">超级渔网</a> ] <br />
+[ <a href="changeNet.jsp?n=2">超级渔网</a> ] <br />
 每轮花费3个金币，每次开启2个海域。<br />
 <%} %>
 <jsp:include page="foot.jsp" flush="false" ></jsp:include>

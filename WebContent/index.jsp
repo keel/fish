@@ -23,9 +23,6 @@ if(coo.equals("")){
 		}
 	}else{
 %>
-<div>
-	游戏说明:
-</div>
 <form name="login" action="index.jsp?login=true" method="post">
 <div>用户登录：<br />
 用户名:  <br /><input type="text" id="uName" name="uName" /><br />
