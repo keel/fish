@@ -26,9 +26,11 @@ public static final int[] shootFishes(int shootWide,int[] fishes,int[] gotFishes
 		//取随机值对应到区间
 		int r = RandomUtil.getRandomInt(start, 121);
 		//System.out.println("r:"+r+" start:"+start);
+		/*
 		for(int i = 0;i<fishes.length;i++){
 			System.out.println("fishes["+i+"]:"+fishes[i]);
 		}
+		*/
 		//re为最终的鱼种,从0-3共4个标记
 		int re = 0;
 		if(r<= fishes[0]){
@@ -129,7 +131,7 @@ if(level >= 10){
 	StringBuilder sb = new StringBuilder();
 	StringBuilder sb2 = new StringBuilder();
 	for(int i = 0;i<fishes.length;i++){
-		System.out.println("fishes["+i+"]:"+fishes[i]);
+		//System.out.println("fishes["+i+"]:"+fishes[i]);
 		sb.append(",").append(fishes[i]);
 		sb2.append(",").append(gotFishes[i]);
 	}
